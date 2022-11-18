@@ -80,7 +80,7 @@ function redditCommentToOurStuff(rc: any, depth = 1) {
 
 export const GET: RequestHandler = async () => {
 	const time = Date.now();
-	console.log('api/post', time);
+	console.log('api/p', time);
 
     try {
         const url = `https://www.reddit.com/comments/wwgrdu/.json` // todo: make programatic

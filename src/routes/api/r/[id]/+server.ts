@@ -4,7 +4,7 @@ import type { RequestHandler } from './$types';
 
 export const GET: RequestHandler = async () => {
     const time = Date.now();
-	console.log('api/subreddit/posts', time);
+	console.log('api/r/[id]', time);
 
     try {
         const url = `https://www.reddit.com/r/halo/.json`
@@ -43,7 +43,7 @@ export const GET: RequestHandler = async () => {
             });
         });
 
-        console.log(posts);
+        // console.log(posts);
 
         return new Response(
             JSON.stringify(
