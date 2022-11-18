@@ -18,17 +18,16 @@
     overflow-y-hidden
     overflow-x-auto"
 >
-    <div class="w-36 bg-red-100 shrink0-0">
-        test
-    </div>
-    {#each posts as {author, title, ...rest}}
+    {#each posts as {author, title, url, thumbnail, ...rest}}
         <div class="
             rounded-xl p-4 shadow-lg 
             snap-always
             snap-center
             mr-4
+            mt-12
+            first:ml-16
             shrink-0
-            w-5/6 h-fit
+            w-full max-w-3xl h-fit
             overflow-y-scroll
             overflow-none
             bg-white dark:bg-slate-900
@@ -40,11 +39,45 @@
             ">
                 {title}</div>
             <div>{author}</div>
-            {#if rest.post_hint === "image"}
-                <div class="">
-                    <img src={rest.url} alt="post" />
-                </div>
+            <div>{url}</div>
+            <div class="h-3/4 max-h-5/6">
+                {#if rest.post_hint === "image"}
+                    <img 
+                        src={url} 
+                        alt="post" loading="lazy" 
+                    />
                 {/if}
+                {#if url.endsWith("gifv") && rest.domain === "i.imgur.com"}
+                    <!-- svelte-ignore a11y-media-has-caption -->
+                    <video
+                        on:mouseenter={(e) => e?.target?.play()}
+                        on:mouseleave={(e) => e?.target?.pause()}
+                        controls
+                        poster={url.slice(0,-4).concat("jpg")}
+                        preload="none"
+                        src={url.slice(0,-4).concat("mp4")} 
+                    />
+                {:else if rest.preview}
+                    <!-- svelte-ignore a11y-media-has-caption -->
+                    <video 
+                        on:mouseenter={(e) => e?.target?.play()}
+                        on:mouseleave={(e) => e?.target?.pause()}
+                        poster={thumbnail}
+                        preload="none"
+                        src={rest.preview}
+                    />
+                {:else if rest.domain === "v.redd.it"}
+                    <!-- svelte-ignore a11y-media-has-caption -->
+                    <video 
+                        on:mouseenter={(e) => e?.target?.play()}
+                        on:mouseleave={(e) => e?.target?.pause()}
+                        poster={thumbnail}
+                        preload="none"
+                        src={`${rest.url}.mp4`}
+                    />
+                {/if}
+            </div>
+
             <div class="whitespace-pre text-xs font-mono">{JSON.stringify(rest, null, 2)}</div>
         </div>
     {/each}
