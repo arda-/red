@@ -2,12 +2,14 @@ import type { RequestHandler } from './$types';
 
 
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ params }) => {
     const time = Date.now();
-	console.log('api/subreddit/posts', time);
 
+	console.log('api/r/[id]', time);
+    console.log("params", params);
+    
     try {
-        const url = `https://www.reddit.com/r/halo/.json`
+        const url = `https://www.reddit.com/r/${params.id}/.json`
         // todo: make programatic
         const req = await fetch(url);
         const res = await req.json();
@@ -39,11 +41,12 @@ export const GET: RequestHandler = async () => {
                 "permalink": child.permalink,
                 "url": child.url,
                 "created_utc": child.created_utc,
-                "media": child.media?.oembed
+                "media": child.media?.oembed,
+                "preview": child.preview?.reddit_video_preview?.fallback_url
             });
         });
 
-        console.log(posts);
+        // console.log(posts);
 
         return new Response(
             JSON.stringify(
