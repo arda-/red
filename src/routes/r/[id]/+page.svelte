@@ -10,37 +10,34 @@
 
 
 <div class="
-    relative w-full h-screen
-    flex gap-6
+    relative w-full
+    flex items-start gap-4 sm:gap-6
     pb-14 
     bg-blue-200
     dark:bg-[#000011]
-    overflow-y-hidden
-    overflow-x-auto"
+    overflow-x-auto
+    snap-x snap-mandatory"
 >
     {#each posts as {author, title, url, thumbnail, ...rest}}
         <div class="
             rounded-xl p-4 shadow-lg 
-            snap-always
-            snap-center
-            mr-4
+            snap-center shrink-0
             mt-12
             first:ml-16
-            shrink-0
-            w-full max-w-3xl h-fit
-            overflow-y-scroll
-            overflow-none
+            last:mr-16
+            w-5/6 max-w-3xl
             bg-white dark:bg-slate-900
             text-neutral-700 dark:text-neutral-300
+            overflow-y-scroll
             "
         >
             <div class="
-                text-xl font-semibold leading-tight 
+                text-xl font-semibold leading-tight
             ">
                 {title}</div>
             <div>{author}</div>
             <div>{url}</div>
-            <div class="h-3/4 max-h-5/6">
+            <div class="h-3/4 max-h-5/6 shrink-0">
                 {#if rest.post_hint === "image"}
                     <img 
                         src={url} 
